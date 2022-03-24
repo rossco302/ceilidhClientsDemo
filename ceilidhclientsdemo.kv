@@ -1,0 +1,184 @@
+#:import Factory kivy.factory.Factory
+ScreenManager:
+	HomeScreen
+	FormScreen
+
+
+
+<HomeScreen>
+	name: 'home_screen'
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 50
+		padding: 35, 35
+		ClientsRv:
+			padding: 30, 30
+			size_hint_y: 10
+		    viewclass: 'ClientsRvButton'
+		    data: app.clients
+	        RecycleBoxLayout:
+	            default_size: None, dp(56)
+	            default_size_hint: 1, None
+	            size_hint_y: None
+	            height: self.minimum_height
+	            orientation: 'vertical'
+		Button:
+			on_press: Factory.AddClientPopUp().open()
+			text: 'add client'
+			size_hint_y: 1
+
+
+<AddClientPopUp>
+	size_hint: 0.6, 0.2
+	title: 'add client'
+	BoxLayout:
+		orientation: 'vertical'
+		new_client: new_client
+		auto_dismiss: False
+		TextInput:
+			size_hint_y: 
+			id: new_client
+		BoxLayout:
+			size_hint_y: 1
+			Button: 
+				text: 'close'
+				on_release: root.dismiss()
+			Button:
+				text: 'add client'
+				on_press: root.add_new_client()
+				on_release: root.dismiss()
+
+
+<FormScreen>
+	name: 'form_screen'
+	CeildhInfoForm:
+		orientation: 'vertical'
+		client_name: client_name
+		ceilidh_date: ceilidh_date
+		services: services
+		timings: timings
+		accomodation: accomodation
+		venue: venue
+		fee_per_musician: fee_per_musician
+		accomodation_cost: accomodation_cost
+		travel_info: travel_info
+		num_of_musicians: num_of_musicians
+		booking_fee: booking_fee
+		travel_costs: travel_costs
+
+		BoxLayout:
+			orientation: 'vertical'
+			spacing: 50
+			padding: 35, 35
+			BoxLayout:
+				Label:
+					text: "client: "
+				Label:
+					multiline: False
+					id: client_name
+			BoxLayout:
+				Label:
+					text: "services: "
+				TextInput:
+					multiline: False
+					id: services
+			BoxLayout:
+				Label:
+					text: "travel info: "
+				TextInput:
+					multiline: False
+					id: travel_info
+			BoxLayout:
+				Label:
+					text: "ceilidh date: "
+				TextInput:
+					multiline: False
+					id: ceilidh_date
+
+			BoxLayout:
+				Label:
+					text: "timings: "
+				TextInput:
+					multiline: False
+					id: timings
+
+			BoxLayout:
+				Label:
+					text: "travel costs: "
+				TextInput:
+					multiline: False
+					id: travel_costs
+
+			BoxLayout:
+				Label:
+					text: "accomodation: "
+				TextInput:
+					multiline: False
+					id: accomodation
+
+			BoxLayout:
+				Label:
+					text: "venue: "
+				TextInput:
+					multiline: False
+					id: venue
+
+			BoxLayout:
+				Label:
+					text: "fee per musician: "
+				TextInput:
+					multiline: False
+					id: fee_per_musician
+
+			BoxLayout:
+				Label:
+					text: "number of musicians: "
+				TextInput:
+					multiline: False
+					id: num_of_musicians
+
+			BoxLayout:
+				Label:
+					text: "booking fee: "
+				TextInput:
+					multiline: False
+					id: booking_fee
+
+			BoxLayout:
+				Label:
+					text: "accomodation cost: "
+				TextInput:
+					multiline: False
+					id: accomodation_cost	
+			
+			BoxLayout:
+				Button: 
+					text: 'go back'
+					on_release: 
+						app.root.transition.direction =  'right'
+						app.root.current = 'home_screen'
+				Button:
+					text: 'create contract'
+					on_press: root.create_contract()
+				Button:
+					text: 'create deposit invoice'
+					on_press: root.create_deposit_invoice()
+				Button:
+					text: 'create invoice'
+					on_press: root.create_invoice()
+				Button:
+					text: 'save'
+					on_press: root.save_clients_info()
+				Button:
+					text: 'delete client'
+					on_press: root.delete_client()
+
+
+<ClientsRvButton>:
+	rv_button: rv_button
+	id: rv_button
+	on_release: 
+		app.root.current = 'form_screen' 
+		app.root.transition.direction = 'left'
+	on_press: root.get_client_data() 
+
